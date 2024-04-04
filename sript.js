@@ -1,65 +1,30 @@
-let playerData = []; // Variable para almacenar los datos del archivo CSV
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Football Player Database</title>
+  <style>
+    /* Estilos CSS */
+  </style>
+</head>
+<body>
+  <h1>Football Player Database</h1>
 
-document.getElementById("csvFile").addEventListener("change", function(event) {
-  const file = event.target.files[0];
-  const reader = new FileReader();
+  <input type="file" id="csvFile" accept=".csv"><br><br>
 
-  reader.onload = function(e) {
-    const csv = e.target.result;
-    playerData = parseCSV(csv);
-    console.log("Archivo CSV cargado:", playerData);
-  };
+  <hr>
 
-  reader.readAsText(file);
-});
+  <h2>Search Players</h2>
 
-function parseCSV(csv) {
-  const lines = csv.split('\n');
-  const data = [];
-  const headers = lines[0].split(',');
+  <label for="searchField">Search:</label>
+  <input type="text" id="searchField">
+  <button onclick="searchPlayers()">Search</button>
 
-  for (let i = 1; i < lines.length; i++) {
-    const values = lines[i].split(',');
-    if (values.length === headers.length) {
-      const player = {};
-      for (let j = 0; j < headers.length; j++) {
-        player[headers[j].trim()] = values[j].trim();
-      }
-      data.push(player);
-    }
-  }
+  <div id="searchResults">
+    <!-- Los resultados de la búsqueda se mostrarán aquí -->
+  </div>
 
-  return data;
-}
-
-function searchPlayers() {
-  const searchTerm = document.getElementById("searchField").value.toLowerCase();
-  const results = playerData.filter(player => {
-    for (const key in player) {
-      if (player[key].toLowerCase().includes(searchTerm)) {
-        return true;
-      }
-    }
-    return false;
-  });
-
-  displayResults(results);
-}
-
-function displayResults(results) {
-  const resultsDiv = document.getElementById("searchResults");
-  resultsDiv.innerHTML = "";
-
-  if (results.length === 0) {
-    resultsDiv.innerHTML = "No results found.";
-  } else {
-    const resultList = document.createElement("ul");
-    results.forEach(player => {
-      const listItem = document.createElement("li");
-      listItem.textContent = JSON.stringify(player);
-      resultList.appendChild(listItem);
-    });
-    resultsDiv.appendChild(resultList);
-  }
-}
-
+  <script src="script.js"></script>
+</body>
+</html>
